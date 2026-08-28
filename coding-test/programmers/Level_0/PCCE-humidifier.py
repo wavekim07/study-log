@@ -28,7 +28,7 @@ def solution(mode_type, humidity, val_set) :
     if mode_type == "auto" :
         answer = func2(humidity)
     if mode_type == "target" :
-        answer = func1(humdity, val_set)
+        answer = func1(humidity, val_set)
     if mode_type == "minimum" :
         answer = func3(humidity, val_set)
     return answer
