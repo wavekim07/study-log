@@ -104,3 +104,17 @@ study-log/
 - Node.js/npm/npx/Vite/React/JSX 각각의 역할과 계층 구조를 근본 원리부터 이해 (브라우저 전용이던 JavaScript가 Node.js로 독립 실행 가능해진 배경까지)
 - JSP와 JavaScript는 이름만 비슷할 뿐 완전히 다른 언어 (Java 계열 vs JavaScript 계열)
 - 여러 언어/프레임워크에서 반복되는 공통 패턴 발견: 값을 직접 바꾸지 못하게 하고 정해진 통로(setState / getter·setter)로만 접근하게 하는 설계
+
+### 4주차 (~9/27) 회고
+
+**스크립트프로그래밍 (React)**
+- Todo 리스트 실습(StateArray)으로 배열 state 다루기, 사용자 정보 실습(StateObject)으로 객체 state 다루기
+
+**웹프로그래밍 (JSP)**
+- ActionTag 프로젝트로 JSP 액션 태그 학습 — `jsp:include`(페이지 재사용), `jsp:forward`(페이지 전환), `jsp:useBean`/`jsp:setProperty`(폼 데이터 자동 매핑)
+
+**배운 것**
+- 리액트 state의 핵심 원칙인 불변성(immutability) 이해 — 배열/객체 state는 직접 수정하지 않고 스프레드 연산자(`...`)로 복사한 새 값으로 교체해야 리액트가 변화를 감지함
+- `{ [변수]: 값 }` 형태의 동적 필드명으로 하나의 함수가 여러 필드를 처리하는 패턴
+- JSP `include`(부분 재사용)와 `forward`(전체 전환)의 차이, React의 컴포넌트 재사용과 개념적으로 유사함을 확인
+- CSS 기초 지식 부족을 인지, 기말 프로젝트(React+JSP 연계)를 위해 별도 학습 필요성 확인
