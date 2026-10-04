@@ -76,7 +76,6 @@ JSX      → React를 사용할 때, 화면 구조를 코드 안에 표현하는
 - Vite와 Eclipse는 무관함 (Vite=리액트/VS Code, Eclipse=JSP)
 - JSX는 "개발 환경"이 아니라 React를 쓸 때의 "문법"일 뿐임
 - React는 기본적으로 프론트엔드 전용 (백엔드는 별도 도구 필요)
-- 이벤트 핸들러 작성 시 `onChange={(e) => handleFunc(e)}`처럼 이벤트 객체(e)를 매개변수로 명시하는 게 안전함 (전역 event 객체 직접 참조는 지양)
 - fetch는 404/500 응답에서도 catch로 가지 않음 → `response.ok` 확인 필요
 - `isCancelled`는 요청을 취소하는 게 아니라 결과를 무시하는 것
 - `[]` 의존성의 effect 안에서 state를 갱신할 때는 `prev =>` 패턴이 안전 (StrictMode 개발 모드에서는 effect가 2번 실행되어 값이 중복될 수 있음)
