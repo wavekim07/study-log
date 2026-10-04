@@ -118,3 +118,20 @@ study-log/
 - `{ [변수]: 값 }` 형태의 동적 필드명으로 하나의 함수가 여러 필드를 처리하는 패턴
 - JSP `include`(부분 재사용)와 `forward`(전체 전환)의 차이, React의 컴포넌트 재사용과 개념적으로 유사함을 확인
 - CSS 기초 지식 부족을 인지, 기말 프로젝트(React+JSP 연계)를 위해 별도 학습 필요성 확인
+
+### 5주차 (9/28~10/4) 회고
+
+**스크립트프로그래밍 (React)**
+- effect-app 프로젝트로 useEffect 학습: 의존성 배열, 클린업 함수, fetch 기반 비동기 데이터 로딩(로딩/에러 상태 관리), 디바운스 검색
+
+**웹프로그래밍 (JSP)**
+- InternalObject 프로젝트로 request 객체의 파라미터 메서드와 session 기반 로그인/로그아웃 실습
+- 내장객체 4종(page/request/session/application)의 유효 범위 차이 학습
+- ActionTag의 오타 수정 (profile_view.jsp는 미작성 상태로 진도 이동)
+
+**배운 것**
+- useEffect의 역할(렌더링과 부수효과 분리)과, 의존성 배열에 따라 실행 시점이 달라지는 원리
+- fetch는 404/500에서도 reject되지 않아 response.ok 확인이 필요하다는 점
+- 늦게 도착한 비동기 결과가 상태를 덮어쓰는 문제를 isCancelled 플래그와 클린업으로 막는 패턴
+- 폼 데이터 읽기 메서드별 반환 타입 차이, 체크박스 미선택 시 null이 반환되는 점
+- 데이터는 필요한 만큼 가장 짧은 범위(page < request < session < application)에 저장

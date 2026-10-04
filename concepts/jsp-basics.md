@@ -39,8 +39,33 @@ JSP      → HTML 안에 Java 코드를 끼워 넣어, 서버에서 동적으로
 - `<jsp:useBean id="이름" class="클래스경로" scope="범위" />`: 지정한 클래스의 객체를 생성
 - `<jsp:setProperty property="*" name="이름" />`: 폼에서 넘어온 파라미터들을 useBean으로 만든 객체의 필드에 자동으로 채워넣음 (필드명과 input name이 일치해야 함)
 
+## request 객체로 폼 데이터 받기
+- `getParameter("이름")`: 값 1개를 String으로
+- `getParameterValues("이름")`: 같은 이름의 값 여러 개를 String[]으로 (체크박스)
+- `getParameterNames()`: 모든 파라미터 이름 (Enumeration, `while (hasMoreElements())`로 순회)
+- `getParameterMap()`: 전체를 Map<String, String[]>으로 (`keySet()`으로 순회)
+- `request.setCharacterEncoding("utf-8")`: 한글 입력값이 깨지지 않게 파라미터를 읽기 전에 호출
+- 클라이언트 정보: `getRemoteAddr()`(IP), `getRemotePort()`, `getRequestURL()`, `getMethod()`
+
+## 세션으로 로그인/로그아웃 처리
+- 로그인: `session.setAttribute("userId", uid)`로 로그인 정보를 세션에 기록
+- `session.getId()`: 세션 ID, `session.getMaxInactiveInterval()`: 타임아웃(초)
+- 로그아웃: `session.invalidate()`로 세션 객체 자체를 소멸
+- `getAttribute()`는 Object를 반환하므로 `(String)` 등으로 형변환 필요
+
+## 내장객체의 유효 범위 (page / request / session / application)
+- 네 객체 모두 `setAttribute("이름", 값)` / `getAttribute("이름")`으로 데이터를 저장하고 꺼냄 (getAttribute는 Object 반환 → 형변환 필요)
+- **page** (`pageContext`): 현재 JSP 페이지 안에서만 유효, 페이지 처리가 끝나면 소멸 (`useBean`의 기본 scope)
+- **request**: 한 번의 요청 동안 유효, forward/include된 페이지까지 공유, 응답이 끝나면 소멸 → 폼 파라미터 읽기, forward로 데이터 전달
+- **session**: 같은 사용자(브라우저) 단위로 여러 요청에 걸쳐 유지, 타임아웃 또는 `invalidate()`로 소멸 → 로그인 정보, 장바구니, 상품 목록
+- **application**: 웹 애플리케이션 전체에서 모든 사용자가 공유, 서버(앱) 종료 시 소멸 → 방문자 수, 공통 설정값
+- 범위 선택 기준: 필요한 만큼 가장 짧은 범위를 사용 (넓을수록 메모리를 오래 차지하고, application은 동시 수정 문제 가능)
+
 ## 헷갈렸던 점
 - JSP와 JavaScript는 이름만 비슷, 완전 별개 (Java 계열 vs JavaScript 계열)
 - 브라우저에 도착하는 건 이미 Java가 실행되고 사라진 순수 HTML뿐
 - 자기 스스로 닫는 태그(`<jsp:forward .../>`)와 여는/닫는 태그 쌍(`<h4>...</h4>`)을 혼동하지 않기
 - HTML 태그는 여닫는 이름이 달라도 브라우저가 어느 정도 봐주지만, 정확한 문법(`<h4>...</h4>`)을 지키는 습관이 필요
+- 체크박스를 하나도 선택하지 않으면 `getParameterValues()`는 빈 배열이 아니라 null을 반환 → 반복문 전에 null 체크 필요
+- 오타를 고치다가 새 오타를 만들 수 있으니 수정 후 다시 확인하기 (`</h5>` → `</4>`, 정답은 `</h4>`)
+- `useBean`의 기본 scope는 page라서, forward된 다른 페이지에서는 그 객체가 보이지 않음 (다른 페이지에서 쓰려면 request 이상의 범위 필요)

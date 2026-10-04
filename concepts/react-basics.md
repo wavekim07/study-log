@@ -40,6 +40,26 @@ JSX      → React를 사용할 때, 화면 구조를 코드 안에 표현하는
 - `{ [변수]: 값 }` 형태로, 변수의 값을 객체의 키 이름으로 사용 가능
 - 하나의 함수로 여러 필드를 처리할 때 유용 (예: `updateUser(field, value)`)
 
+## useEffect와 부수효과(side effect)
+- 부수효과: 화면 그리기 외의 작업(데이터 요청, 타이머, 로그 등). 렌더링 중에 직접 실행하지 않고 `useEffect` 안에서 처리
+- 렌더링 중에 setState를 직접 호출하면 상태 변경 → 렌더링 → setState가 무한 반복됨
+- 의존성 배열에 따라 실행 시점이 달라짐
+  - `[]`: 마운트 시 1번
+  - `[x]`: 마운트 시 + x가 바뀔 때마다
+  - 생략: 매 렌더링 후
+- 클린업 함수(`return () => {...}`): 컴포넌트가 사라질 때, 다음 effect 실행 직전에 실행 (타이머 정리, 이전 요청 결과 무시 등)
+
+## fetch로 비동기 데이터 가져오기
+- 상태 3개로 관리: 데이터 / loading(Pending) / error(Rejected)
+- `async/await` + `try/catch/finally` (성공·실패와 무관하게 finally에서 loading 해제)
+- fetch는 404/500에서도 reject하지 않으므로 `response.ok`를 확인하고 직접 throw
+- `useEffect` 콜백에는 async를 직접 붙일 수 없어서, 안에 async 함수를 정의하고 호출
+- `isCancelled` 플래그: 요청 자체를 취소하는 것이 아니라, 늦게 도착한 결과가 상태를 덮어쓰지 않게 무시하는 패턴 (진짜 취소는 AbortController)
+
+## 디바운스 (입력 검색)
+- 입력할 때마다 요청하지 않고, 입력이 멈춘 뒤 일정 시간(500ms) 후 1번만 요청
+- `setTimeout`으로 예약하고, 클린업에서 `clearTimeout`으로 이전 예약을 취소
+
 ## 이벤트 핸들러 작성 시
 - `onChange={(e) => handleFunc(e)}` 처럼 이벤트 객체(e)를 매개변수로 명시하는 것이 안전 (전역 event 객체 직접 참조는 지양)
 
@@ -57,3 +77,7 @@ JSX      → React를 사용할 때, 화면 구조를 코드 안에 표현하는
 - JSX는 "개발 환경"이 아니라 React를 쓸 때의 "문법"일 뿐임
 - React는 기본적으로 프론트엔드 전용 (백엔드는 별도 도구 필요)
 - 이벤트 핸들러 작성 시 `onChange={(e) => handleFunc(e)}`처럼 이벤트 객체(e)를 매개변수로 명시하는 게 안전함 (전역 event 객체 직접 참조는 지양)
+- fetch는 404/500 응답에서도 catch로 가지 않음 → `response.ok` 확인 필요
+- `isCancelled`는 요청을 취소하는 게 아니라 결과를 무시하는 것
+- `[]` 의존성의 effect 안에서 state를 갱신할 때는 `prev =>` 패턴이 안전 (StrictMode 개발 모드에서는 effect가 2번 실행되어 값이 중복될 수 있음)
+- 검색어처럼 사용자 입력을 URL에 넣을 때는 `encodeURIComponent`로 감싸기
