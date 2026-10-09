@@ -61,6 +61,13 @@ JSP      → HTML 안에 Java 코드를 끼워 넣어, 서버에서 동적으로
 - **application**: 웹 애플리케이션 전체에서 모든 사용자가 공유, 서버(앱) 종료 시 소멸 → 방문자 수, 공통 설정값
 - 범위 선택 기준: 필요한 만큼 가장 짧은 범위를 사용 (넓을수록 메모리를 오래 차지하고, application은 동시 수정 문제 가능)
 
+## JDBC로 MySQL 연결하기
+- 흐름: 접속 정보 설정 → `Class.forName(DRIVER)`로 드라이버 로딩 → `DriverManager.getConnection(URL, ID, PASS)`로 연결 → SQL 실행 → finally에서 `conn.close()`로 자원 해제
+- URL 구조: `jdbc:mysql://서버:포트/DB이름`
+- Statement(문자열 연결로 SQL 작성)는 SQL Injection에 취약 → PreparedStatement(`?` 자리표시자 + `setString/setInt/setDouble`)로 SQL 구조와 값을 분리
+- `setXxx()`의 파라미터 번호는 1부터 시작
+- `executeUpdate()`: INSERT/UPDATE/DELETE 실행, 영향받은 행 수(int) 반환 / SELECT는 `executeQuery()`(ResultSet 반환)
+
 ## 헷갈렸던 점
 - JSP와 JavaScript는 이름만 비슷, 완전 별개 (Java 계열 vs JavaScript 계열)
 - 브라우저에 도착하는 건 이미 Java가 실행되고 사라진 순수 HTML뿐
@@ -69,3 +76,6 @@ JSP      → HTML 안에 Java 코드를 끼워 넣어, 서버에서 동적으로
 - 체크박스를 하나도 선택하지 않으면 `getParameterValues()`는 빈 배열이 아니라 null을 반환 → 반복문 전에 null 체크 필요
 - 오타를 고치다가 새 오타를 만들 수 있으니 수정 후 다시 확인하기 (`</h5>` → `</4>`, 정답은 `</h4>`)
 - `useBean`의 기본 scope는 page라서, forward된 다른 페이지에서는 그 객체가 보이지 않음 (다른 페이지에서 쓰려면 request 이상의 범위 필요)
+- PreparedStatement의 파라미터 번호는 0이 아니라 1부터 시작
+- INSERT가 중복 키로 실패해도 catch가 SQLException을 한꺼번에 처리하면 "연결 실패"처럼 보일 수 있음 → `e.getMessage()`로 실제 원인 확인
+- DB 비밀번호 같은 접속 정보를 코드에 그대로 쓰고 공개 저장소에 커밋하면 노출됨 → 자리표시자 사용 또는 전용 계정 사용

@@ -135,3 +135,17 @@ study-log/
 - 늦게 도착한 비동기 결과가 상태를 덮어쓰는 문제를 isCancelled 플래그와 클린업으로 막는 패턴
 - 폼 데이터 읽기 메서드별 반환 타입 차이, 체크박스 미선택 시 null이 반환되는 점
 - 데이터는 필요한 만큼 가장 짧은 범위(page < request < session < application)에 저장
+
+### 6주차 (10/5~10/9) 회고
+
+**스크립트프로그래밍 (React)**
+- memo-app 프로젝트로 리렌더링 최적화 학습: memo, useCallback, useMemo, 폼 제출(preventDefault), 외부 라이브러리(lucide-react) 설치
+
+**웹프로그래밍 (JSP)**
+- dbconn.jsp로 JDBC 연동 실습: 드라이버 로딩, DB 연결, PreparedStatement로 INSERT, 자원 해제
+- MySQL 설치, 커맨드라인·MySQL Shell·Workbench 사용법 학습
+
+**배운 것**
+- memo·useCallback·useMemo는 "props/의존성이 같으면 재사용"하는 도구이며, 함수 주소와 객체 참조(불변성)가 핵심이라는 점
+- useCallback의 빈 의존성 배열에서 state를 직접 읽으면 값이 고정되는 문제(stale closure)와, `prev =>` 함수형 업데이트로 푸는 방법
+- Statement(문자열 연결)의 SQL Injection 위험과 PreparedStatement(`?` 자리표시자)의 안전한 방식, 파라미터 번호는 1부터 시작

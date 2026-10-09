@@ -60,6 +60,24 @@ JSX      → React를 사용할 때, 화면 구조를 코드 안에 표현하는
 - 입력할 때마다 요청하지 않고, 입력이 멈춘 뒤 일정 시간(500ms) 후 1번만 요청
 - `setTimeout`으로 예약하고, 클린업에서 `clearTimeout`으로 이전 예약을 취소
 
+## 리렌더링 최적화 (memo / useCallback / useMemo)
+- 기본 동작: 부모가 리렌더링되면 props가 그대로여도 자식 컴포넌트도 모두 리렌더링됨
+- `memo(컴포넌트)`: props가 이전과 같으면(얕은 비교) 리렌더링을 건너뜀
+- 함수는 렌더링마다 새로 만들어져 주소가 바뀌므로, 함수를 props로 넘기면 memo가 무력화됨 → `useCallback(함수, [의존성])`으로 함수 주소를 유지
+- `useMemo(() => 계산, [의존성])`: 의존성이 안 바뀌면 이전 계산 결과를 재사용 (useCallback은 함수 캐싱, useMemo는 값 캐싱)
+- `useCallback(..., [])` 안에서는 `setCount(prev => prev + 1)`처럼 함수형 업데이트를 써야 낡은 값 문제 없이 의존성 `[]`로 안전하게 쓸 수 있음
+- 불변성과 연결: `[...prev, newTodo]`는 기존 항목의 참조를 유지하므로, 새 항목을 추가해도 기존 항목 컴포넌트(memo)는 다시 그려지지 않음
+- 최적화 도구이므로 작은 앱에서는 필수가 아님 (console.log로 효과를 확인하며 사용)
+
+## 폼 제출과 preventDefault
+- `<form onSubmit={handleSubmit}>`에서 `e.preventDefault()`로 브라우저의 기본 제출 동작(페이지 이동/새로고침)을 막고 리액트에서 직접 처리
+- form 안의 `<button>`은 type을 생략하면 제출 버튼으로 동작 (Enter로도 제출됨)
+
+## 외부 라이브러리 설치 (lucide-react)
+- 프로젝트 폴더에서 `npm install 패키지명`으로 설치하면 `package.json`에 기록됨
+- `node_modules`는 `.gitignore`로 제외되므로, 저장소를 새로 받았을 때는 `npm install`로 다시 설치
+- lucide-react: 아이콘을 컴포넌트로 가져와 `<Trash2 size={20} />`처럼 사용
+
 ## 이벤트 핸들러 작성 시
 - `onChange={(e) => handleFunc(e)}` 처럼 이벤트 객체(e)를 매개변수로 명시하는 것이 안전 (전역 event 객체 직접 참조는 지양)
 
@@ -80,3 +98,7 @@ JSX      → React를 사용할 때, 화면 구조를 코드 안에 표현하는
 - `isCancelled`는 요청을 취소하는 게 아니라 결과를 무시하는 것
 - `[]` 의존성의 effect 안에서 state를 갱신할 때는 `prev =>` 패턴이 안전 (StrictMode 개발 모드에서는 effect가 2번 실행되어 값이 중복될 수 있음)
 - 검색어처럼 사용자 입력을 URL에 넣을 때는 `encodeURIComponent`로 감싸기
+- `useCallback(..., [])` 안에서 state를 직접 읽으면 처음 값에 고정됨(stale closure) → `prev =>` 함수형 업데이트 사용 (MemoBasic에서 count가 1에서 멈춘 사례)
+- memo는 "props가 같을 때만" 건너뜀 → `label={text}`처럼 바뀌는 props를 넘기면 그때마다 리렌더링됨
+- useMemo는 의존성과 무관한 이유로 리렌더링될 때 효과가 보임 (MemoValue는 data 변경으로만 리렌더링되어 효과가 안 보임)
+- checked만 있고 onChange가 없는 체크박스는 토글이 안 되고 경고가 뜸
