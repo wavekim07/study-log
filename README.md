@@ -9,7 +9,7 @@ study-log/
 ├── projects/ 진행 중인 프로젝트 (프로젝트별 폴더)
 ├── coding-test/ 코딩테스트 풀이 (programmers/, 파이썬)
 ├── concepts/ 과목별 개념 정리
-│   ├── react/ basics.md, midterm.pdf 등
+│   ├── react/ basics.md, midterm.md(+ midterm.pdf) 등
 │   ├── jsp/ basics.md, midterm.md 등
 │   └── mysql-basics.md
 └── README.md 이 파일 (개요 + 주간 회고 누적)
