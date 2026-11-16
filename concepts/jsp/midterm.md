@@ -6,7 +6,7 @@
 > **안 나오는 것** HTML, CSS. **나오는 것** JSP와 관련된 내용만
 
 **이 문서 읽는 법**
-각 장은 이 순서예요: 비유(쉬운 그림) → 개념 → 코드 → 외울 것 → 자주 하는 실수.
+각 장은 이 순서예요: 비유(쉬운 그림) → 개념 → 코드 → 외울 것 → 자주 하는 실수 → **시험 답안용 서술**(1~7장, 그대로 써도 되는 문장. 8장은 연습문제라 없음).
 코드는 눈으로만 보지 말고, 장마다 **백지에 직접 써보세요.** 시험이 "쓰는 문제"라서요.
 
 **교수님이 짚은 순서 = 이 문서의 순서**
@@ -116,6 +116,18 @@ public class test_jsp extends HttpServlet {
 - 브라우저는 **JSP 코드를 볼 수 없어요.** 받는 건 실행이 끝난 HTML뿐이에요.
 - JSP 파일은 더블클릭이 아니라 **서버(Tomcat)를 통해** 열어야 해요 (`localhost:8080/...`).
 
+### 시험 답안용 서술 (그대로 써도 되는 문장)
+
+> 이 문서의 본문 내용만으로 정리했어요. 본문에 근거가 약한 줄은 **확인 필요**로 표시했어요.
+
+- **웹의 동작(요청과 응답)**: 클라이언트(브라우저)가 서버에 페이지를 요청(Request)하면, 웹 서버(Tomcat)가 결과(HTML)를 응답(Response)으로 돌려준다. 요청과 응답을 주고받는 규칙이 HTTP이다. 브라우저는 실행이 끝난 HTML만 받고 JSP 코드는 볼 수 없다.
+- **Tomcat**: JSP를 실행해주는 웹 서버(웹 컨테이너)이다.
+- **서블릿과 JSP의 차이**: 서블릿은 Java 코드 안에 HTML을 문자열로 출력하는 방식이고, JSP는 HTML 안에 Java 코드를 끼워 넣는 방식이다. 서블릿은 HTML 출력이 불편해서 JSP가 나왔다.
+- **JSP 실행 과정**: ① 브라우저가 `test.jsp`를 요청한다. ② Tomcat이 JSP를 서블릿 클래스(`test_jsp.java`, HttpServlet을 상속)로 변환한다. ③ 컴파일하여 `test_jsp.class`를 만든다. ④ JVM이 실행하여 결과인 HTML 문서를 만든다. ⑤ HTML을 응답으로 보내 브라우저가 화면에 표시한다.
+- **변환될 때 코드의 위치**: 선언부 `<%! %>`의 변수와 함수는 서블릿 클래스의 멤버가 되고, 스크립틀릿 `<% %>`의 코드는 요청이 올 때마다 실행되는 `_jspService()` 메서드 안에 들어간다.
+- **JSP의 역할**: 화면을 만들어 보여주는 것(Presentation)이다.
+- **URL 읽기**: `localhost:8080/HelloJSP/test.jsp`에서 `localhost:8080`은 내 컴퓨터의 Tomcat 서버(8080은 포트), `HelloJSP`는 프로젝트 이름, `test.jsp`는 요청한 파일이다.
+
 ---
 
 ## 2장. 스크립트 태그
@@ -220,6 +232,12 @@ JSP에 계산, 데이터, 출력을 다 넣으면 코드가 엉켜서 알아보�
 - `<% %>` 와 `<%! %>` 를 바꿔 쓰는 것. 변수·함수 **정의**는 `<%! %>`, 그 외 **실행**은 `<% %>`.
 - 문자열 `"4" + "5"`는 `"45"`예요. 숫자로 바꾸고 더해야 `9`예요.
 
+### 시험 답안용 서술 (그대로 써도 되는 문장)
+
+- **스크립트 태그 4종**: `<%! %>` 선언은 변수와 함수를 만든다. `<% %>` 스크립틀릿은 연산, if, for, 함수 호출 등 Java 코드를 실행한다. `<%= %>` 표현식은 값을 화면에 출력한다(`out.print`와 같고 세미콜론을 붙이지 않는다). `<%@ page %>` 지시자는 인코딩 등 페이지 설정을 한다.
+- **입력값 읽기**: form에 입력한 값은 `request.getParameter("이름")`으로 읽고, 반환값은 항상 문자열(String)이다. 계산하려면 `Integer.parseInt()` 또는 `Double.parseDouble()`로 숫자로 바꾼다. 주소창에 `calc.jsp?a=4&b=5`처럼 값이 실려가는 형태를 Query String이라고 한다.
+- **Java와 JSP의 역할 분리**: Java 클래스는 데이터와 관리(계산)를, JSP는 출력(Presentation)을 맡는다. JSP에 모두 넣으면 코드가 엉켜서 알아보기 어렵기 때문이다.
+
 ---
 
 ## 3장. 액션 태그
@@ -315,6 +333,16 @@ form에 입력한 값들을 **자동으로 객체로 만들어주는** 액션 �
 
 - `<jsp:include page="b.jsp">` 처럼 끝의 `/`를 빼먹으면 태그가 안 닫혀서 오류가 나요.
 - forward 뒤에 쓴 코드는 실행되지 않아요(이미 넘어갔으니까요).
+
+### 시험 답안용 서술 (그대로 써도 되는 문장)
+
+- **액션 태그**: JSP 페이지끼리 연결해주는 태그이며 `<jsp:이름 />` 형태이다.
+- **include**: 다른 페이지를 현재 페이지 안에 포함한다. 포함된 페이지의 실행이 끝나면 원래 페이지로 돌아와 나머지를 실행한다(A ⇄ B). 머리·메뉴·푸터처럼 모든 페이지에 들어가는 공통 부분을 재사용(모듈화)할 때 쓴다.
+- **forward**: 처리를 다른 페이지로 완전히 넘기고 돌아오지 않는다(A → B). 브라우저 주소창은 그대로이고, request 객체도 함께 넘어간다. forward 뒤에 쓴 코드는 실행되지 않는다.
+- **include와 forward 비교**: include는 갔다가 돌아오고 결과가 A와 B가 합쳐진 한 페이지이며 공통 부분 재사용에 쓴다. forward는 돌아오지 않고 B만 보이며 처리 후 다른 페이지로 이동할 때 쓴다.
+- **include 두 방식**: 액션 태그 `<jsp:include page="b.jsp" />`는 실행할 때 결과를 포함하고, 지시자 `<%@ include file="b.jsp" %>`는 변환할 때 소스를 합친다.
+- **useBean**: form 값을 객체로 만들어 주는 액션 태그이다. `<jsp:useBean id="user2" class="dto.User" />`는 `User user2 = new User();`를 대신하고, `<jsp:setProperty name="user2" property="*" />`는 form 값을 객체에 담아준다.
+- **JavaBean**: private 변수와 getter/setter를 가진 데이터 클래스이다.
 
 ---
 
@@ -429,6 +457,15 @@ JSP에는 **선언하지 않아도 그냥 쓸 수 있는 객체**가 있어요. 
 - `getParameter`와 `getAttribute`를 헷갈리는 것. **form 입력값은 Parameter**, **내가 저장한 건 Attribute**예요.
 - 로그인 안 한 사람이 `main.jsp`를 열면 `getAttribute` 결과가 `null`이에요. `null` 체크를 먼저 해야 해요.
 
+### 시험 답안용 서술 (그대로 써도 되는 문장)
+
+- **Stateless**: HTTP는 이전 요청을 기억하지 못한다(요청 한 번이 한 번의 만남). 그래서 페이지를 이동하면 request는 사라지고, 로그인 같은 상태를 기억해둘 곳으로 session을 쓴다.
+- **내장(전달) 객체 4개와 범위**: `page`는 그 페이지 안에서만, `request`는 요청 한 번(forward된 페이지까지), `session`은 한 브라우저의 접속 동안, `application`은 서버가 켜져 있는 동안 모두가 공유한다. 범위는 page < request < session < application 순으로 넓다.
+- **session이 사용자를 알아보는 과정**: ① 브라우저가 처음 요청하면 서버가 세션 ID(SID)를 만든다. ② 서버에 session 객체를 만들고 그 ID와 연결한다. ③ 서버가 SID를 브라우저에 준다. ④ 브라우저는 이후 요청할 때마다 SID를 함께 보낸다. ⑤ 서버는 SID로 해당 session의 내용을 꺼낸다.
+- **Parameter와 Attribute의 차이**: `getParameter`는 사용자가 form에 입력해서 들어온 값을 읽으며 반환 타입은 String이고 읽기만 가능하다. `setAttribute`/`getAttribute`는 서버 코드가 직접 저장하고 꺼내는 값이며 Object이므로 꺼낼 때 형변환이 필요하다.
+- **request와 session의 차이**: forward로 이동하면 request가 함께 넘어가서 값을 쓸 수 있지만, `<a href>`로 새로 요청하면 request가 새것이라 값이 없다. 이럴 때 session에 저장한다.
+- **로그인 처리**: `session.setAttribute("userId", id)`로 저장하고, `(String) session.getAttribute("userId")`로 꺼내며, 값이 `null`이면 로그인하지 않은 상태이다. 로그아웃은 `session.invalidate()`이다. (**확인 필요**: 본문에 "로그인 예제는 수업 흐름을 바탕으로 정리한 코드"라고 적혀 있으므로 `sendRedirect` 사용 여부와 아이디·비밀번호 값은 수업 필기와 비교.)
+
 ---
 
 ## 5장. 데이터베이스와 MySQL 기본
@@ -525,6 +562,18 @@ desc book;           -- book 테이블의 열 구성 보기
 
 - `char`와 `varchar`: 고정 길이와 가변 길이를 바꿔 설명하기.
 - DDL(구조)과 DML(데이터)을 헷갈리기. `create table`은 **DDL**, `insert`는 **DML**이에요.
+
+### 시험 답안용 서술 (그대로 써도 되는 문장)
+
+- **DB와 DBMS**: DB(Database)는 데이터를 모아둔 곳이고, DBMS는 DB를 관리하는 프로그램이며 우리는 MySQL을 쓴다.
+- **DB의 구조**: MySQL Server(DBMS) ⊃ Database(= Schema) ⊃ Table ⊃ Column(열)과 Record/Row(행). 표 모양으로 데이터를 저장하는 DB를 관계형 DB(RDB)라고 한다.
+- **MySQL 구성품**: MySQL Server는 DB를 돌리는 서버 프로그램, Workbench는 GUI 클라이언트, Command Line(Shell)은 CLI 클라이언트, Connector(JDBC)는 Java 프로그램이 MySQL과 연결하게 해주는 부품이다. 서버 포트는 3306이다.
+- **char와 varchar**: `char(10)`은 고정 10글자(짧아도 10칸 차지)이고, `varchar(20)`은 최대 20글자(글자 수만큼만 차지)이다.
+- **키와 제약**: Primary Key(기본키)는 행마다 겹치지 않는 대표 번호, Not Null(NN)은 비워둘 수 없는 칸, Auto Increment(AI)는 값을 주지 않아도 자동으로 1씩 올라가는 번호이다.
+- **SQL**: Structured Query Language(구조화된 질의 언어). DDL(정의)은 DB와 테이블을 만들고 지우며 `create`, `drop`, `alter`; DML(조작)은 데이터를 다루며 `insert`, `select`, `update`, `delete`; DCL(제어)은 권한을 주고 뺏으며 `grant`, `revoke`이다.
+- **CRUD**: Create(insert), Read(select), Update(update), Delete(delete).
+- **DB를 만드는 순서**: ① 요구 분석 ② DB 설계(개념 스키마인 E-R 다이어그램 → 물리 스키마인 테이블 구조) ③ DB 생성(DDL의 `create`).
+- **정규화**: 한 테이블에 모두 넣지 않고 필요한 컬럼끼리 여러 테이블로 나누는 설계 작업이다.
 
 ---
 
@@ -643,6 +692,15 @@ where bookid = 3;
 - `update` 에서 `set` 사이를 `and`로 이어서 쓰기. **쉼표(,)** 예요.
 - 값에 따옴표를 빠뜨리기. 문자와 날짜는 `' '`.
 - SQL 문 끝의 세미콜론(`;`) 빼먹기 (Java 안의 문자열 SQL에서는 안 붙여요).
+
+### 시험 답안용 서술 (그대로 써도 되는 문장)
+
+- **insert**: `insert into 테이블 (열들) values (값들);` 열 순서와 값 순서가 같아야 하고, 문자와 날짜는 작은따옴표로 묶는다. auto_increment 열은 생략할 수 있다.
+- **select**: `select 열들 from 테이블 where 조건;` `*`는 모든 열이다. Selection은 조건(`where`)에 맞는 행(레코드)을 고르는 것이고, Projection은 보고 싶은 열(컬럼)을 고르는 것이다.
+- **update**: `update 테이블 set 열=값, 열=값 where 조건;` 여러 열은 쉼표로 잇는다. `where`로 대상 행을 고르며, `where`를 빼면 모든 행이 바뀐다.
+- **delete**: `delete from 테이블 where 조건;` `where`를 빼면 모든 행의 데이터가 지워진다(테이블 자체가 지워지는 것은 아니다).
+- **SQL의 같다**: `=` 하나이다(Java의 `==`가 아니다).
+- **join**: 여러 테이블로 나눠 저장한 데이터를 이어서 조회하는 select이다. 이번 시험에서는 왜 필요한지 정도의 개념만 알면 된다(본문: 교수님이 "뒤에서 다시 본다"고 하심).
 
 ---
 
@@ -958,6 +1016,20 @@ form으로 입력값을 받고, `action`으로 처리 JSP에 보내요. (HTML �
 - select에 `executeUpdate()`를 쓰기. select는 **`executeQuery()`** 예요.
 - `finally`에서 close를 빼먹으면 연결이 계속 남아요.
 - 못 찾았을 때 `null`인 것을 검사하지 않고 `book.getTitle()`을 부르면 **NullPointerException**이 나요.
+
+### 시험 답안용 서술 (그대로 써도 되는 문장)
+
+- **DAO(Data Access Object)**: DB 연결과 SQL 실행, 결과 받기를 맡는 Java 클래스이다.
+- **DTO(Data Transfer Object)**: DB에서 찾은 데이터를 담아 JSP로 전달하는 데이터 클래스(그릇)이다. private 변수, 생성자, getter/setter로 만든다.
+- **JSP의 역할**: 요청을 받아 DAO에 부탁하고 결과를 화면에 출력(Presentation)만 한다.
+- **나누는 이유**: JSP 한 파일에 DB 연결, SQL, 출력을 모두 넣으면 코드가 길어지고 HTML과 뒤섞여 지저분해진다. JSP의 원래 역할은 보여주는 것이므로 DB 작업을 DAO로 분리해 코드를 단순하게 만든다.
+- **처리 흐름**: ① 사용자가 JSP에서 입력한다. ② JSP는 DB 일을 직접 하지 않고 DAO에 요청한다. ③ DAO가 DB에 연결하고 SQL을 만들어 실행해 결과를 받는다. ④ 결과를 DTO 객체로 포장해 JSP에 넘긴다. ⑤ JSP는 DTO를 출력한다.
+- **JDBC 5단계**: 연결 → SQL 작성 → 실행 → 결과 처리 → 연결 해제.
+- **executeUpdate와 executeQuery**: `executeUpdate()`는 insert, update, delete를 실행하고 영향받은 행 개수(int)를 돌려준다. `executeQuery()`는 select를 실행하고 ResultSet(레코드 집합)을 돌려준다.
+- **PreparedStatement**: SQL을 DB에 전달하는 매개체이다. `?`는 값이 들어갈 빈칸이며 `setString(1, ...)`처럼 번호는 1부터 시작하고 타입에 맞게 `setString`, `setInt`, `setDouble`을 쓴다.
+- **ResultSet**: `rs.next()`를 호출할 때마다 다음 레코드로 이동하고, 있으면 true, 끝이면 false이다. `rs.getString("열이름")` 등으로 값을 꺼내 `new BookDTO(...)`에 담는다. 찾지 못하면 결과는 `null`이므로 JSP에서 `null` 검사를 한다.
+- **finally**: 성공·실패와 관계없이 항상 실행되므로 여기서 `close()`로 연결을 해제한다.
+- **확인 필요**: DAO의 연결 정보 변수명(`jdbcDriver` 등), DB 이름, 비밀번호는 수업 코드에 있던 이름으로 맞춰서 쓸 것.
 
 ---
 
