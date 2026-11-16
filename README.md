@@ -7,7 +7,11 @@
 study-log/
 ├── logs/ 일일 학습 로그 (YYYY-MM-DD.md)
 ├── projects/ 진행 중인 프로젝트 (프로젝트별 폴더)
-├── concepts/ 과목별 개념 정리 (react-basics.md, jsp-basics.md 등)
+├── coding-test/ 코딩테스트 풀이 (programmers/, 파이썬)
+├── concepts/ 과목별 개념 정리
+│   ├── react/ basics.md, midterm.md 등
+│   ├── jsp/ basics.md, midterm.md 등
+│   └── mysql-basics.md
 └── README.md 이 파일 (개요 + 주간 회고 누적)
 
 ## 로그 작성 규칙
