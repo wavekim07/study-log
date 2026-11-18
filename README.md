@@ -83,8 +83,10 @@ study-log/
 ### 2주차 (9/1 개강 ~ 9/3) 회고
 
 **코딩테스트 (프로그래머스)**
-- 9/1: 특수문자 출력(이스케이프 문자), a+b 출력(f-string 응용), 문자열 순회
-- 9/2: 코드 처리하기(mode 상태 전환), 등차수열 항 계산, 2차원 리스트 인덱싱(queries)
+- 8/31: 특수문자 출력하기, 덧셈식 출력하기, 문자열 붙여서 출력하기, 문자열 돌리기
+- 9/1: 특수문자 출력(이스케이프 문자), a+b 출력(f-string 응용), 문자열 순회 외 홀짝 구분하기, 문자열 겹쳐쓰기·섞기·곱하기, 더 크게 합치기, 두 수의 연산값 비교하기, N의 배수, 공배수, 조건 문자열 등 11문제
+- 9/2: 코드 처리하기(mode 상태 전환), 등차수열 항 계산, 2차원 리스트 인덱싱(queries) 외 flag에 따라 다른 값 반환하기, 주사위 게임 2, 원소들의 곱과 합, 이어붙인 수, 마지막 두 원소
+- 9/3: 수 조작하기, 수 조작하기2, 수열과 구간 쿼리 3
 
 **배운 것**
 - 역슬래시(`\`)는 탈출문자, 실제 출력하려면 `\\` 필요
@@ -153,3 +155,35 @@ study-log/
 - memo·useCallback·useMemo는 "props/의존성이 같으면 재사용"하는 도구이며, 함수 주소와 객체 참조(불변성)가 핵심이라는 점
 - useCallback의 빈 의존성 배열에서 state를 직접 읽으면 값이 고정되는 문제(stale closure)와, `prev =>` 함수형 업데이트로 푸는 방법
 - Statement(문자열 연결)의 SQL Injection 위험과 PreparedStatement(`?` 자리표시자)의 안전한 방식, 파라미터 번호는 1부터 시작
+
+### 7~11주차 (10/12~11/18) 요약
+
+**스크립트프로그래밍 (React)**
+- context-app(Context, Multi Context, useMemo, useRef), reducer-app(useReducer 카운터·유저 정보·장바구니 ShoppingCart) 실습 (10/19, 11/16)
+- localstorage-app, router-app(장바구니 예제), typescript-app(TodoApp), typing-practice(리스트·테이블 렌더링) 실습 (11/16 커밋)
+- Firestore 기초(문서 추가·조회·수정·삭제) 실습 중. `doc`·`deleteDoc` import 누락, 수정 코드 안에 삭제 코드가 섞인 문제를 겪고 고침 (11/18)
+- 중간고사 대비 정리본(`concepts/react/midterm.md`, PDF 46쪽) 작성
+
+**웹프로그래밍 (JSP)**
+- DB 연결·해제 유틸(DBUtil), BookDAO·BookDTO로 도서 CRUD 구현, 도서 관리 JSP 페이지(등록·검색·목록·상세·삭제) 작성 (10/14)
+- GoodTravel 프로젝트: 회원가입·로그인·상품 목록·상세·예약 기능, PasswordUtil 추가 (11/16 커밋)
+- bean 프로젝트로 JavaBean(`useBean`, `setProperty`) 실습
+- 중간고사 대비 정리본(`concepts/jsp/midterm.md`) 작성, 장별 시험 답안용 서술 추가
+
+**저장소 정리**
+- GitHub 저장소를 study-log, dailybean, jsp-space, react-apps 4개만 남기고 정리 (11/16)
+- study-log를 `concepts/react`, `concepts/jsp`, `coding-test/programmers`(Level_0, Level_1) 구조로 재정리
+- 밀려 있던 react-apps, jsp-space 실습을 기능별로 나눠 커밋. 영화 검색(OMDb API 키가 코드에 직접 들어 있는 파일)은 커밋하지 않음
+
+**코딩테스트**
+- Python으로 꾸준히 이어가기로 정함 (11/18)
+- 수열과 구간 쿼리 2, 4 풀이 추가. C 풀이를 거쳐 Python으로 정리하며 `malloc` 크기(`queries_rows`) 실수와 `k % i`·`j % k`처럼 변수를 거꾸로 쓰는 실수를 확인함
+
+**배운 것**
+- API 키처럼 비밀 값이 들어간 파일은 공개 저장소에 올리지 않기
+- 커밋은 기능별로 나눠서 메시지를 정확히 쓰기(`feat :`, `docs :`, `wip :`)
+- 문제 설명이 헷갈리면 예제 하나를 손으로 따라가 보면 구조가 보임(수열과 구간 쿼리 2에서 확인)
+- Firestore 문서는 삭제하면 같은 ID로 수정할 수 없고, 새로 만든 문서의 ID를 써야 함
+
+**기말 프로젝트**
+- React + JSP 연계, 혼자 진행. 후보 1은 "서버 주소 명함"(주소를 공유하면 가입 요청 → 승인 → 공개 범위가 넓어지는 구조). 아직 확정하지 않음
